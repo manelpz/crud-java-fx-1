@@ -1,12 +1,18 @@
 
 package com.emma.controllers;
 
+import java.util.Observable;
+
 import com.emma.models.Book;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class mainController {
 
@@ -52,12 +58,45 @@ public class mainController {
         Object source = event.getSource();
 
         if (source.toString().contains("Insertar")) {
-            //insertBook();
+            insertBook();
         } else if (source.toString().contains("Actualizar")) {
             //updateBook();
         } else if (source.toString().contains("Eliminar")) {
             //deleteBook();
         }
+    }
+
+    private ObservableList<Book> bookList = FXCollections.observableArrayList();
+
+    
+    @FXML
+    private void initialize() {
+
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        colAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
+        colYear.setCellValueFactory(new PropertyValueFactory<>("year"));
+        colPages.setCellValueFactory(new PropertyValueFactory<>("pages"));
+
+        tbBooks.setItems(bookList);
+
+    }
+
+    
+    private void insertBook() {
+        Book book = new Book(
+                Integer.parseInt(tfId.getText()),
+                tfTitle.getText(),
+                tfAuthor.getText(),
+                Integer.parseInt(tfYear.getText()),
+                Integer.parseInt(tfPages.getText())
+        );
+
+        bookList.add(book);
+        //clearFields();
+        //for (Book bookRead : bookList) {
+        //System.out.println(bookRead.getTitle() + ", " + bookRead.getAuthor() + ", " + bookRead.getYear() + ", " + bookRead.getPages() + ", " + bookRead.getId());
+        //}
     }
 
 
