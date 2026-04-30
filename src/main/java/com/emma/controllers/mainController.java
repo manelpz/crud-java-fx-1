@@ -4,6 +4,7 @@ package com.emma.controllers;
 import java.util.Observable;
 
 import com.emma.models.Book;
+import com.emma.repository.bookRepository;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -53,7 +54,7 @@ public class mainController {
     
 
      @FXML
-    private void handleBtnAction(javafx.event.ActionEvent event) {
+    private void handleBtnAction(javafx.event.ActionEvent event) throws Exception {
 
         Object source = event.getSource();
 
@@ -68,7 +69,8 @@ public class mainController {
 
     private ObservableList<Book> bookList = FXCollections.observableArrayList();
 
-    
+    private bookRepository repository = new bookRepository();
+
     @FXML
     private void initialize() {
 
@@ -83,9 +85,10 @@ public class mainController {
     }
 
     
-    private void insertBook() {
+    private void insertBook() throws Exception {
+      
         Book book = new Book(
-                Integer.parseInt(tfId.getText()),
+                //Integer.parseInt(tfId.getText()),
                 tfTitle.getText(),
                 tfAuthor.getText(),
                 Integer.parseInt(tfYear.getText()),
@@ -93,6 +96,8 @@ public class mainController {
         );
 
         bookList.add(book);
+        repository.insert(book);
+
         //clearFields();
         //for (Book bookRead : bookList) {
         //System.out.println(bookRead.getTitle() + ", " + bookRead.getAuthor() + ", " + bookRead.getYear() + ", " + bookRead.getPages() + ", " + bookRead.getId());
